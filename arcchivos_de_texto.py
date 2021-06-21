@@ -1,3 +1,12 @@
+def quitar_tilde_y_may(caracter):
+    caracter = caracter.lower()
+    if caracter == "á": caracter = "a"
+    if caracter == "é": caracter = "e"
+    if caracter == "í": caracter = "i"
+    if caracter == "ó": caracter = "o"
+    if caracter == "ú": caracter = "u"
+    return caracter
+
 def archivos_de_texto():
     """Toma el texto de 3 archivos de texto diferentes"""
     palabra = ""
@@ -7,6 +16,7 @@ def archivos_de_texto():
         for linea_Cuentos in Cuentos:
             for caracter in linea_Cuentos:
                 if caracter.isalpha():
+                    caracter = quitar_tilde_y_may(caracter)
                     palabra += caracter
                 if not caracter.isalpha():
                     if len(palabra) >= 5:
@@ -22,6 +32,7 @@ def archivos_de_texto():
         for linea_Cuentos in La_arana_negra:
             for caracter in linea_Cuentos:
                 if caracter.isalpha():
+                    caracter = quitar_tilde_y_may(caracter)
                     palabra += caracter
                 if not caracter.isalpha():
                     if len(palabra) >= 5:
@@ -37,6 +48,7 @@ def archivos_de_texto():
         for linea_Cuentos in muchas_noches:
             for caracter in linea_Cuentos:
                 if caracter.isalpha():
+                    caracter = quitar_tilde_y_may(caracter)
                     palabra += caracter
                 if not caracter.isalpha():
                     if len(palabra) >= 5:
@@ -48,8 +60,18 @@ def archivos_de_texto():
                 else:
                     palabra_cantidad[palabra_en_lista] = [palabra_cantidad[palabra_en_lista][0] ,palabra_cantidad[palabra_en_lista][1], int(palabra_cantidad[palabra_en_lista][2]) + 1]
             palabras_candidatas = []         
-
     palabra_cantidad = dict(sorted(palabra_cantidad.items()))
+    with open("palabras.csv","w") as palabras_csv:
+        for palabra in palabra_cantidad:
+            palabras_csv.write(palabra)
+            palabras_csv.write(",")
+            palabras_csv.write(str(palabra_cantidad[palabra][0]))
+            palabras_csv.write(",")
+            palabras_csv.write(str(palabra_cantidad[palabra][1]))
+            palabras_csv.write(",")
+            palabras_csv.write(str(palabra_cantidad[palabra][2]))
+            palabras_csv.write("\n")
+
     print(palabra_cantidad)            
 
 
