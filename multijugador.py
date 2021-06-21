@@ -236,10 +236,10 @@ def ahorcado_multijugador_final(texto):
              datos_finales[jugador][1]+=datos[jugador][1]
              datos_finales[jugador][2]+=datos[jugador][2]
              datos_finales[jugador][3]+=datos[jugador][3]
-         rondas+=1
-         respuesta=input("Desea jugar una nueva partida?(s/n):")
-     datos_finales=list(datos_finales.items())
-     datos_finales=sorted(datos_finales,key=lambda x:x[1][0],reverse=True)
+         rondas += 1
+         respuesta = input("Desea jugar una nueva partida?(s/n):")
+     datos_finales = list(datos_finales.items())
+     datos_finales =sorted(datos_finales,key=lambda x:x[1][0],reverse=True)
      print("Podio final")
      for posicion in range(0,len(datos_finales)):
          jugador=datos_finales[posicion][0]
