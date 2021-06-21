@@ -161,100 +161,94 @@ def asignar_palabras(diccionario,sorteo):
     return jugadores
      
 def ahorcado_multijugador(diccionario,ganador,players):
-     participantes=sorteo(ganador,players)
-     jugadores=asignar_palabras(diccionario,participantes)
+     participantes = sorteo(ganador,players)
+     jugadores = asignar_palabras(diccionario,participantes)
      for posicion in range(0,len(participantes)):
-      jugador=participantes[posicion]
-      palabra=jugadores[jugador][0]
-      jugadores[jugador]=comienzo_ahorcado(palabra)
-     terminados=0
-     cantidad_jugadores=len(participantes)
-     lista_jugadores=participantes
-     posicion=0
-     ganadores=0
-     ultimo=False
-     while terminados!=cantidad_jugadores:
-      if posicion>=len(participantes):posicion=0
-      jugador=participantes[posicion]
+      jugador = participantes[posicion]
+      palabra = jugadores[jugador][0]
+      jugadores[jugador] = comienzo_ahorcado(palabra)
+     terminados = 0
+     cantidad_jugadores = len(participantes)
+     lista_jugadores = participantes
+     posicion = 0
+     ganadores = 0
+     ultimo = False
+     while terminados != cantidad_jugadores:
+      if posicion >= len(participantes):posicion=0
+      jugador = participantes[posicion]
       if not ultimo: print("Ahora es el turno de",jugador)
-      palabra=jugadores[jugador][0]
-      desaciertos=jugadores[jugador][1]
-      aciertos=jugadores[jugador][2]
-      letras_usadas=jugadores[jugador][3]
-      lista_de_letras=jugadores[jugador][4]
-      puntaje=jugadores[jugador][5]
-      jugadores[jugador]=ahorcado(palabra,desaciertos,aciertos,letras_usadas,lista_de_letras,puntaje,ultimo)
-      if terminados==cantidad_jugadores-1: ultimo=True
-      veredicto=jugadores[jugador][6]
+      palabra = jugadores[jugador][0]
+      desaciertos = jugadores[jugador][1]
+      aciertos = jugadores[jugador][2]
+      letras_usadas = jugadores[jugador][3]
+      lista_de_letras = jugadores[jugador][4]
+      puntaje = jugadores[jugador][5]
+      jugadores[jugador] = ahorcado(palabra,desaciertos,aciertos,letras_usadas,lista_de_letras,puntaje,ultimo)
+      if terminados == cantidad_jugadores-1: ultimo=True
+      veredicto = jugadores[jugador][6]
       if not ultimo:
         print(veredicto)
         print("")
-      if veredicto!="Cambio de turno":
-        jugadores[jugador]+=[0]
-        if veredicto=="Felicitaciones resolviste el ahorcado con exito":
-            if ganadores==0:
-             jugadores[jugador][5]+=10
-            jugadores[jugador][7]+=1
-            ganadores+=1
-        terminados+=1
+      if veredicto != "Cambio de turno":
+        jugadores[jugador] += [0]
+        if veredicto == "Felicitaciones resolviste el ahorcado con exito":
+            if ganadores == 0:
+             jugadores[jugador][5] += 10
+            jugadores[jugador][7] += 1
+            ganadores += 1
+        terminados += 1
         participantes.remove(jugador)
-      posicion+=1
-     if ganadores==0:
+      posicion += 1
+     if ganadores == 0:
          for jugador in lista_jugadores:
              jugadores[jugador][5]-=5
-     datos=list(jugadores.items())
-     datos=sorted(datos,key=lambda x:x[1][5],reverse=True)
+     datos = list(jugadores.items())
+     datos = sorted(datos,key=lambda x:x[1][5], reverse = True)
      print("")
-     jugadores={}
-     ganador=datos[0][0]
+     jugadores = {}
+     ganador = datos[0][0]
      print("El ganador fue",ganador)
      for info in datos:
-         jugador=info[0]
-         palabra=info[1][0]
-         desaciertos=info[1][1]
-         aciertos=info[1][2]
-         puntaje=info[1][5]
-         palabras_acertadas=info[1][7]
+         jugador = info[0]
+         palabra = info[1][0]
+         desaciertos = info[1][1]
+         aciertos = info[1][2]
+         puntaje = info[1][5]
+         palabras_acertadas = info[1][7]
          print(jugador,"obtuvo",puntaje,"puntos y tuvo",aciertos,"aciertos y",desaciertos,"desaciertos, su palabra era",palabra)
-         jugadores[jugador]=[puntaje,desaciertos,aciertos,palabras_acertadas]
+         jugadores[jugador] = [puntaje,desaciertos,aciertos,palabras_acertadas]
      return jugadores,ganador
     
 def ahorcado_multijugador_final(texto):
-     respuesta=""
-     respuesta="s"
-     datos_finales={}
-     rondas=0
-     ganador=""
-     diccionario=filtrar_texto(texto)
-     players=elegir_jugadores()
-     while respuesta!="n":
-         datos,ganador=ahorcado_multijugador(diccionario,ganador,players)
+     respuesta = ""
+     respuesta = "s"
+     datos_finales = {}
+     rondas = 0
+     ganador = ""
+     diccionario = filtrar_texto(texto)
+     players = elegir_jugadores()
+     while respuesta != "n":
+         datos,ganador = ahorcado_multijugador(diccionario,ganador,players)
          for jugador in datos.keys():
              if jugador not in datos_finales:
-                 datos_finales[jugador]=[0,0,0,0]
-             datos_finales[jugador][0]+=datos[jugador][0]
-             datos_finales[jugador][1]+=datos[jugador][1]
-             datos_finales[jugador][2]+=datos[jugador][2]
-             datos_finales[jugador][3]+=datos[jugador][3]
+                 datos_finales[jugador] = [0,0,0,0]
+             datos_finales[jugador][0] += datos[jugador][0]
+             datos_finales[jugador][1] += datos[jugador][1]
+             datos_finales[jugador][2] += datos[jugador][2]
+             datos_finales[jugador][3] += datos[jugador][3]
          rondas += 1
          respuesta = input("Desea jugar una nueva partida?(s/n):")
      datos_finales = list(datos_finales.items())
-     datos_finales =sorted(datos_finales,key=lambda x:x[1][0],reverse=True)
+     datos_finales = sorted(datos_finales,key=lambda x:x[1][0],reverse=True)
      print("Podio final")
      for posicion in range(0,len(datos_finales)):
-         jugador=datos_finales[posicion][0]
-         desaciertos=datos_finales[posicion][1][1]
-         aciertos=datos_finales[posicion][1][2]
-         puntaje=datos_finales[posicion][1][0]
-         palabras_acertadas=datos_finales[posicion][1][3]
+         jugador = datos_finales[posicion][0]
+         desaciertos = datos_finales[posicion][1][1]
+         aciertos = datos_finales[posicion][1][2]
+         puntaje = datos_finales[posicion][1][0]
+         palabras_acertadas = datos_finales[posicion][1][3]
          print(str(posicion+1)+".",jugador,"con",puntaje,"puntos,",aciertos,"aciertos,",desaciertos,"desaciertos, y de",rondas,"palabras acertó",palabras_acertadas)
-         
-         
-     
-       
-
-    
-     
+            
 
 def obtener_texto():
     """Devuelve un texto compuesto por Cuentos"""
